@@ -1,0 +1,7 @@
+<ng-container [formGroup]="form">
+    <ng-select appendTo="body" class="browser-default select-providers" formControlName="{{ controlName }}" placeholder="Select" (change)="onValueChange()" [class.is-invalid]="form.get(controlName).invalid && form.get(controlName).dirty">
+        <ng-option *ngIg="nullable"></ng-option>
+        <ng-option [value]="true">Yes</ng-option>
+        <ng-option [value]="false">No</ng-option>
+    </ng-select>
+</ng-container>
