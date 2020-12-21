@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DateInputComponent } from './date-input.component';
+import { FloatMenuComponent } from './float-menu.component';
 
-describe('DateInputComponent', () => {
-  let component: DateInputComponent;
-  let fixture: ComponentFixture<DateInputComponent>;
+describe('FloatMenuComponent', () => {
+  let component: FloatMenuComponent;
+  let fixture: ComponentFixture<FloatMenuComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DateInputComponent ]
+      declarations: [ FloatMenuComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DateInputComponent);
+    fixture = TestBed.createComponent(FloatMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

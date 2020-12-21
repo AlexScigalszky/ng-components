@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DateInputComponent } from './date-input.component';
+import { TextareaInputComponent } from './textarea-input.component';
 
-describe('DateInputComponent', () => {
-  let component: DateInputComponent;
-  let fixture: ComponentFixture<DateInputComponent>;
+describe('TextareaInputComponent', () => {
+  let component: TextareaInputComponent;
+  let fixture: ComponentFixture<TextareaInputComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DateInputComponent ]
+      declarations: [ TextareaInputComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DateInputComponent);
+    fixture = TestBed.createComponent(TextareaInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

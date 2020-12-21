@@ -1,21 +1,46 @@
-import { Component, OnInit, EventEmitter, Input, Output } from "@angular/core";
-import { FormControl } from "@angular/forms";
+import { DatePipe } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { startWith } from 'rxjs/operators';
 
 @Component({
-  selector: "app-date-input",
-  templateUrl: "./date-input.component.html",
-  styleUrls: ["./date-input.component.css"],
+  selector: 'app-date-input',
+  templateUrl: './date-input.component.html',
+  styleUrls: ['./date-input.component.css'],
 })
 export class DateInputComponent implements OnInit {
-  @Output() onChange = new EventEmitter<any>();
+  @Output() changed = new EventEmitter<any>();
   @Input() form: FormControl;
   @Input() controlName: string;
+  /**
+   * Must by a boolean value
+   */
+  @Input() conditionalCheck: string;
+  @Input() initialDisabled = false;
+  @Input() placeholder = '';
+  @Input() maxDate: Date = null;
 
-  constructor() {}
+  ngOnInit(): void {
+    this.form
+      .get(this.conditionalCheck)
+      .valueChanges.pipe(startWith([this.initialDisabled]))
+      .subscribe((value) => {
+        if (value) {
+          this.form.get(this.controlName).enable();
+        } else {
+          this.form.get(this.controlName).disable();
+        }
+        this.form.get(this.controlName).updateValueAndValidity();
+      });
+  }
 
-  ngOnInit(): void {}
-
-  onDateChange() {
-    this.onChange.emit(this.form.get(this.controlName).value);
+  onValueChange() {
+    const control = this.form.get(this.controlName);
+    const value = control.value;
+    if (this.maxDate !== null && new Date(value) > this.maxDate) {
+      control.setValue(null);
+    } else {
+      this.changed.emit(value);
+    }
   }
 }

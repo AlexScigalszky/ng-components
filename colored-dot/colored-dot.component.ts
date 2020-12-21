@@ -11,6 +11,7 @@ export class ColoredDotComponent implements OnInit {
   @Input() yellow: boolean = false;
   @Input() green: boolean = false;
   @Input() grey: boolean = false;
+  @Input() color: string = 'black';
 
   constructor() {}
 

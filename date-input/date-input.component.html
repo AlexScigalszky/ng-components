@@ -1,3 +1,13 @@
 <ng-container [formGroup]="form">
-    <input type="date" data-date="" data-date-format="DD MMMM YYYY" class="form-control" formControlName="{{ controlName }}" (change)="onDateChange()" [class.is-invalid]="form.get(controlName).invalid && form.get(controlName).dirty">
+    <input
+        [attr.data-cy]="'date-input-'+ controlName" 
+        id="{{ controlName }}" 
+        type="date" 
+        data-date="" 
+        data-date-format="DD MMMM YYYY" 
+        class="form-control" 
+        formControlName="{{ controlName }}" 
+        placeholder="{{ placeholder }}" 
+        (change)="onValueChange()" 
+        [class.is-invalid]="form.get(controlName).invalid && form.get(controlName).dirty">
 </ng-container>
