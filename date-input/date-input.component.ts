@@ -15,23 +15,26 @@ export class DateInputComponent implements OnInit {
   /**
    * Must by a boolean value
    */
-  @Input() conditionalCheck: string;
+  @Input() conditionalCheck: string = null;
   @Input() initialDisabled = false;
   @Input() placeholder = '';
   @Input() maxDate: Date = null;
 
   ngOnInit(): void {
-    this.form
+    if (this.conditionalCheck !== null) {
+      this.form
       .get(this.conditionalCheck)
       .valueChanges.pipe(startWith([this.initialDisabled]))
       .subscribe((value) => {
+        const control = this.form.get(this.controlName);
         if (value) {
-          this.form.get(this.controlName).enable();
+          control.enable();
         } else {
-          this.form.get(this.controlName).disable();
+          control.disable();
         }
-        this.form.get(this.controlName).updateValueAndValidity();
+        control.updateValueAndValidity();
       });
+    }
   }
 
   onValueChange() {

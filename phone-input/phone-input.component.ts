@@ -3,11 +3,14 @@ import { FormControl } from '@angular/forms';
 import { startWith } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-text-input',
-  templateUrl: './text-input.component.html',
-  styleUrls: ['./text-input.component.css'],
+  selector: 'app-phone-input',
+  templateUrl: './phone-input.component.html',
+  styleUrls: ['./phone-input.component.css'],
 })
-export class TextInputComponent implements OnInit {
+/**
+ * At this moment, this component it's equal to text-input. Therefor, it must be improved by phone checking (cel-phone, home, work, etc)
+ */
+export class PhoneInputComponent implements OnInit {
   @Output() changed = new EventEmitter<string>();
   @Input() form: FormControl;
   @Input() controlName: string;
@@ -38,14 +41,12 @@ export class TextInputComponent implements OnInit {
       .get(this.conditionalCheck)
       ?.valueChanges.pipe(startWith([this.initialDisabled]))
       .subscribe((value) => {
-        const control = this.form.get(this.controlName);
         if (value) {
-          control.enable();
+          this.form.get(this.controlName).enable();
         } else {
-          control.setValue(null);
-          control.disable();
+          this.form.get(this.controlName).disable();
         }
-        control.updateValueAndValidity();
+        this.form.get(this.controlName).updateValueAndValidity();
       });
   }
 
@@ -54,15 +55,12 @@ export class TextInputComponent implements OnInit {
       .get(this.conditionalNoCheck)
       ?.valueChanges.pipe(startWith([this.initialDisabled]))
       .subscribe((value) => {
-        const control = this.form.get(this.controlName);
-        console.debug('value', value);
         if (value) {
-          control.setValue(null);
-          control.disable();
+          this.form.get(this.controlName).disable();
         } else {
-          control.enable();
+          this.form.get(this.controlName).enable();
         }
-        control.updateValueAndValidity();
+        this.form.get(this.controlName).updateValueAndValidity();
       });
   }
 

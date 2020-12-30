@@ -1,0 +1,4 @@
+<div class="form-group pl-3 mt-3">
+  <label [for]="forLabel">{{label}}</label>
+	<textarea class="form-control" [cols]="cols" [rows]="rows" (change)="onChange($event.target.value)"></textarea>
+</div>
