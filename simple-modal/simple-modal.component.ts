@@ -12,7 +12,8 @@ export class SimpleModalComponent {
   public static readonly OPERATION_UNFINISHED_MESSAGE = 'No se pudo realizar la operación';
   public static readonly MODAL_TYPE_ERROR = 'warning';
   public static readonly MODAL_TYPE_INFO = 'info';
-
+  public static readonly MODAL_TYPE_QUESTION = 'question';
+  @Input() title: string = null;
   @Input() message: string = null;
   @Input() type: string = SimpleModalComponent.MODAL_TYPE_INFO;
   id: number = this.random.randomizeInteger();
@@ -20,6 +21,7 @@ export class SimpleModalComponent {
   INVALID_FORM_MESSAGE = SimpleModalComponent.INVALID_FORM_MESSAGE;
   MODAL_TYPE_ERROR = SimpleModalComponent.MODAL_TYPE_ERROR;
   MODAL_TYPE_INFO = SimpleModalComponent.MODAL_TYPE_INFO;
+  MODAL_TYPE_QUESTION = SimpleModalComponent.MODAL_TYPE_QUESTION;
 
   constructor(
     private random: RandomService,

@@ -1,11 +1,17 @@
-<ng-container [formGroup]="form">
-    <input 
-        [attr.data-cy]="'text-input-'+ controlName" 
-        id="{{ controlName }}" 
-        type="text" 
-        class="form-control" 
-        formControlName="{{ controlName }}" 
-        placeholder="{{ placeholder }}" 
-        (change)="onValueChange()" 
-        [class.is-invalid]="form.get(controlName).invalid && form.get(controlName).dirty">
+<ng-container [formGroup]="formGroup">    
+    <div class="input-group">
+        <div *ngIf="prefix" class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">{{ prefix }}</span>
+        </div>
+        <input 
+            [attr.data-cy]="'text-input-'+ controlName" 
+            id="{{ controlName }}" 
+            type="text" 
+            class="form-control" 
+            formControlName="{{ controlName }}" 
+            placeholder="{{ placeholder }}" 
+            (change)="onValueChange()" 
+            [class.is-invalid]="formGroup.get(controlName).invalid && formGroup.get(controlName).dirty"
+            aria-describedby="basic-addon1">
+    </div>
 </ng-container>

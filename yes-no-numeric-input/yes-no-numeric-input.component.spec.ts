@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AttachmentsComponent } from './attachments.component';
+import { YesNoNumericInputComponent } from './yes-no-numeric-input.component';
 
-describe('AttachmentsComponent', () => {
-  let component: AttachmentsComponent;
-  let fixture: ComponentFixture<AttachmentsComponent>;
+describe('YesNoNumericInputComponent', () => {
+  let component: YesNoNumericInputComponent;
+  let fixture: ComponentFixture<YesNoNumericInputComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AttachmentsComponent ]
+      declarations: [ YesNoNumericInputComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AttachmentsComponent);
+    fixture = TestBed.createComponent(YesNoNumericInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

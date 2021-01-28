@@ -1,0 +1,14 @@
+<ng-container>
+    <label for="{{ controlName }}">
+        {{ title }}
+    </label>
+    <div class="options">
+        <div 
+            *ngFor="let option of options; index as i" 
+            class="option switch_option cursor-pointer" 
+            [ngStyle]="{'width': percentage+'%'}" 
+            [ngClass]="{'active': position==i}" 
+            (click)="changed(option, i)">{{option.name}}</div>
+        <div class="switch_overlay eap_bg_2" [ngStyle]="{'left': position*percentage+'%', 'width': percentage+'%'}"></div>
+    </div>
+</ng-container>

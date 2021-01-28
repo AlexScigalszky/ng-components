@@ -1,0 +1,28 @@
+<label for="" [ngClass]="{'required': required}">{{ title }}</label>
+
+<div style="position: relative;">
+  <input
+    type="text"
+    class="form-control cursor-pointer"
+    [placeholder]="placeholder"
+    [ngModel]="selectValue?.name"
+    (keyup)="filterOptions($event.target.value)"
+    (focus)="inputFocus=true"
+    (blur)="onBlur($event.target)"
+  />
+  <span class="icon">
+    <i class="fas fa-chevron-down"></i>
+  </span>
+</div>
+
+<ul 
+  class="options d-none shadow" 
+  [ngClass]="{ 'd-block': inputFocus || mouseIn}"
+  (mouseenter)="mouseIn=true"
+  (mouseleave)="mouseIn=false"  
+>
+  <li *ngIf="!filteredOptions?.length" class="text-muted">No hay coincidencias</li>
+  <li *ngFor="let option of filteredOptions" class="option" (click)="optionClicked(option)">
+    {{ option.name }}
+  </li>
+</ul>

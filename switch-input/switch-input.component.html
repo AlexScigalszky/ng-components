@@ -1,17 +1,20 @@
-<ng-container [formGroup]="form">
-    <div class="custom-control custom-switch">
-        <input
-        [attr.data-cy]="'checkbox-input-'+ controlName" 
-        id="{{ controlName }}" 
-        type="checkbox" 
-        class="custom-control-input" 
-        formControlName="{{ controlName }}" 
-        placeholder="{{ placeholder }}" 
-        (change)="onValueChange()" 
-        [class.is-invalid]="form.get(controlName).invalid && form.get(controlName).dirty">
-        
-        <label class="custom-control-label" for="{{ controlName }}">
-            {{ label }}
-        </label>
+<ng-container>
+    <label>
+        {{ label }}
+    </label>
+    <div class="options">
+        <div 
+            class="option switch_option cursor-pointer" 
+            [ngClass]="{'active': formValue}" 
+            (click)="changed(true)">
+            Yes
+        </div>
+        <div 
+            class="option switch_option cursor-pointer" 
+            [ngClass]="{'active': !formValue}"
+            (click)="changed(false)">
+            No
+        </div>
+        <div class="overlay switch_overlay eap_bg_2" [ngClass]="{'checked': formValue}" ></div>
     </div>
 </ng-container>

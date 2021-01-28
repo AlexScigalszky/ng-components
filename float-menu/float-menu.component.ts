@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class FloatMenuComponent {
   @Input() url: string;
+  @Input() tooltip: string;
 
   constructor(private router: Router) { }
 

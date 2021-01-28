@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { startWith } from 'rxjs/operators';
 
 @Component({
@@ -12,18 +12,23 @@ import { startWith } from 'rxjs/operators';
  */
 export class PhoneInputComponent implements OnInit {
   @Output() changed = new EventEmitter<string>();
-  @Input() form: FormControl;
+  @Input() set form(value: FormGroup) {
+    this.formGroup = value;
+    this.ngOnInit();
+  }
   @Input() controlName: string;
+  @Input() prefix: number | string;
   /**
-   * Must by a boolean value
+   * Must be a boolean value
    */
   @Input() conditionalCheck: string;
   /**
-   * Must by a boolean value
+   * Must be a boolean value
    */
   @Input() conditionalNoCheck: string;
   @Input() initialDisabled = false;
   @Input() placeholder = 'Ingrese los datos acá';
+  formGroup: FormGroup;
 
   ngOnInit(): void {
     if (this.conditionalCheck !== null && this.conditionalCheck !== undefined) {
@@ -37,34 +42,36 @@ export class PhoneInputComponent implements OnInit {
   }
 
   configConditionalCheck() {
-    this.form
+    this.formGroup
       .get(this.conditionalCheck)
       ?.valueChanges.pipe(startWith([this.initialDisabled]))
       .subscribe((value) => {
         if (value) {
-          this.form.get(this.controlName).enable();
+          this.formGroup.get(this.controlName).enable();
         } else {
-          this.form.get(this.controlName).disable();
+          this.formGroup.get(this.controlName).setValue(null);
+          this.formGroup.get(this.controlName).disable();
         }
-        this.form.get(this.controlName).updateValueAndValidity();
+        this.formGroup.get(this.controlName).updateValueAndValidity();
       });
   }
 
   configConditionalNoCheck() {
-    this.form
+    this.formGroup
       .get(this.conditionalNoCheck)
       ?.valueChanges.pipe(startWith([this.initialDisabled]))
       .subscribe((value) => {
         if (value) {
-          this.form.get(this.controlName).disable();
+          this.formGroup.get(this.controlName).setValue(null);
+          this.formGroup.get(this.controlName).disable();
         } else {
-          this.form.get(this.controlName).enable();
+          this.formGroup.get(this.controlName).enable();
         }
-        this.form.get(this.controlName).updateValueAndValidity();
+        this.formGroup.get(this.controlName).updateValueAndValidity();
       });
   }
 
   onValueChange() {
-    this.changed.emit(this.form.get(this.controlName).value);
+    this.changed.emit(this.formGroup.get(this.controlName).value);
   }
 }

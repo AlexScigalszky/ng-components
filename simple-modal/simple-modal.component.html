@@ -1,17 +1,26 @@
-<div class="modal-header">
-    <h4 class="modal-title">SEAPOL</h4>
+<div class="modal-header" [class.modal-header-info]="type === MODAL_TYPE_INFO" [class.modal-header-question]="type === MODAL_TYPE_QUESTION">
+    <h4 class="modal-title">{{ title }}</h4>
     <button type="button" class="close" aria-label="Close" (click)="activeModal.close(this.id)">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 <div class="modal-body">
-    <p *ngIf="type == MODAL_TYPE_INFO">
-        {{ message}}
+    <p *ngIf="type === MODAL_TYPE_INFO">
+        {{ message }}
     </p>
-    <p *ngIf="type == MODAL_TYPE_ERROR">
-        {{ message}}
+    <p *ngIf="type === MODAL_TYPE_ERROR">
+        {{ message }}
+    </p>
+    <p *ngIf="type === MODAL_TYPE_QUESTION">
+        {{ message }}
     </p>
 </div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close(this.id)">Aceptar</button>
+<div class="modal-footer" *ngIf="type !== MODAL_TYPE_QUESTION && activeModal">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close(this.id)">Acept</button>
+</div>
+<div class="modal-footer" *ngIf="type === MODAL_TYPE_QUESTION && activeModal">
+    <button type="button" class="btn btn-success" (click)="this.activeModal.close(true)">Yes</button>
+    <button type="button" class="btn btn-danger" (click)="this.activeModal.close(false)">No</button>
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close(null)">Cancel</button>
+
 </div>

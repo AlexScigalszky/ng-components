@@ -1,0 +1,36 @@
+.options {
+  position: relative;
+  height: 50px;
+  width: 100%;
+  background: rgb(243, 243, 243);
+  border-radius: 50px;
+  
+  .option, .overlay {
+    height: 100%;
+  }
+  
+  .option {
+    display: inline-block;
+    width: 50%;
+    font-weight: 200;
+    
+    &:first-child {
+      border-bottom-left-radius: 50px;
+      border-top-left-radius: 50px;
+    }
+    
+    &:last-child {
+      border-bottom-right-radius: 50px;
+      border-top-right-radius: 50px;
+    }
+  }
+}
+
+.overlay {
+  left: 50%;
+  width: 50%;
+  
+  &.checked {
+    left: 0%;
+  }
+}

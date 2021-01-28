@@ -1,5 +1,12 @@
-import { Component, Input, Output, EventEmitter, forwardRef, OnInit } from '@angular/core';
-import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  forwardRef,
+  OnInit,
+} from '@angular/core';
+import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { filter, first, flatMap, startWith } from 'rxjs/operators';
 import { Option } from 'src/app/data/schema/option';
@@ -8,13 +15,6 @@ import { Option } from 'src/app/data/schema/option';
   selector: 'app-select-ng',
   templateUrl: './select-ng.component.html',
   styleUrls: ['./select-ng.component.css'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      multi: true,
-      useExisting: forwardRef(() => SelectNgComponent),
-    },
-  ],
 })
 export class SelectNgComponent implements OnInit {
   @Input() id?: string;
@@ -22,21 +22,23 @@ export class SelectNgComponent implements OnInit {
   @Input() options?: Option[];
   @Output() changed: EventEmitter<Option> = new EventEmitter<Option>();
   @Input() placeholder = 'Selecciona una opción';
-  @Input() form: FormControl;
+  @Input() set form(value: FormGroup) {
+    this.formGroup = value;
+    this.ngOnInit();
+  }
   @Input() controlName: string;
   @Input() appendTo: string = null;
   /**
-   * Must by a boolean value
+   * Must be a boolean value
    */
   @Input() conditionalCheck: string;
   /**
-   * Must by a boolean value
+   * Must be a boolean value
    */
   @Input() conditionalNoCheck: string;
   @Input() initialDisabled = false;
+  formGroup: FormGroup;
   selectValue: any;
-
-  constructor() {}
 
   ngOnInit(): void {
     if (this.conditionalCheck !== null && this.conditionalCheck !== undefined) {
@@ -50,11 +52,11 @@ export class SelectNgComponent implements OnInit {
   }
 
   configConditionalCheck() {
-    this.form
+    this.formGroup
       .get(this.conditionalCheck)
       ?.valueChanges.pipe(startWith([this.initialDisabled]))
       .subscribe((value) => {
-        const control = this.form.get(this.controlName);
+        const control = this.formGroup.get(this.controlName);
         if (value) {
           control.enable();
         } else {
@@ -66,11 +68,11 @@ export class SelectNgComponent implements OnInit {
   }
 
   configConditionalNoCheck() {
-    this.form
+    this.formGroup
       .get(this.conditionalNoCheck)
       ?.valueChanges.pipe(startWith([this.initialDisabled]))
       .subscribe((value) => {
-        const control = this.form.get(this.controlName);
+        const control = this.formGroup.get(this.controlName);
         if (value) {
           control.disable();
         } else {
@@ -85,19 +87,16 @@ export class SelectNgComponent implements OnInit {
     return `option-${this.controlName}-${item}`;
   }
 
-  propagateChange = (_: any) => { };
-
   onChange(value: any) {
     const o = this.options$
       .pipe(
         flatMap((x) => [...x]),
         filter((x) => x.id.toString() === value.toString()),
-        first()
+        first(),
       )
       .subscribe((x) => {
         this.changed.emit(x);
       });
-    this.propagateChange(value);
   }
 
   writeValue(obj: any): void {
@@ -106,16 +105,14 @@ export class SelectNgComponent implements OnInit {
     }
   }
 
-  registerOnChange(fn: any): void {
-    this.propagateChange = fn;
-  }
-
-  registerOnTouched() { }
-
   filterOptions(query: string) {
     if (query !== '') {
       this.options$ = this.options$.pipe(
-        filter(x => x.filter(m => m.name.toLowerCase().indexOf(query) > -1).length > 0 )
+        filter(
+          (x) =>
+            x.filter((m) => m.name.toLowerCase().indexOf(query) > -1).length >
+            0,
+        ),
       );
     }
   }
@@ -125,6 +122,10 @@ export class SelectNgComponent implements OnInit {
   }
 
   onValueChange() {
-   // this.onChange.emit(this.form.get(this.controlName).value);
+    this.changed.emit(this.formGroup.get(this.controlName).value);
+  }
+
+  compareWith(item, selected): boolean {
+    return item?.id === selected?.id;
   }
 }

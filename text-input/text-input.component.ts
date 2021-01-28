@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { startWith } from 'rxjs/operators';
 
 @Component({
@@ -9,18 +9,22 @@ import { startWith } from 'rxjs/operators';
 })
 export class TextInputComponent implements OnInit {
   @Output() changed = new EventEmitter<string>();
-  @Input() form: FormControl;
+  @Input() set form(value: FormGroup) {
+    this.formGroup = value;
+    this.ngOnInit();
+  }
   @Input() controlName: string;
   /**
-   * Must by a boolean value
+   * Must be a boolean value
    */
   @Input() conditionalCheck: string;
   /**
-   * Must by a boolean value
+   * Must be a boolean value
    */
   @Input() conditionalNoCheck: string;
   @Input() initialDisabled = false;
   @Input() placeholder = 'Ingrese los datos acá';
+  formGroup: FormGroup;
 
   ngOnInit(): void {
     if (this.conditionalCheck !== null && this.conditionalCheck !== undefined) {
@@ -34,11 +38,10 @@ export class TextInputComponent implements OnInit {
   }
 
   configConditionalCheck() {
-    this.form
-      .get(this.conditionalCheck)
-      ?.valueChanges.pipe(startWith([this.initialDisabled]))
+    this.formGroup.controls[this.conditionalCheck]?.valueChanges
+      .pipe(startWith([this.initialDisabled]))
       .subscribe((value) => {
-        const control = this.form.get(this.controlName);
+        const control = this.formGroup.get(this.controlName);
         if (value) {
           control.enable();
         } else {
@@ -50,12 +53,11 @@ export class TextInputComponent implements OnInit {
   }
 
   configConditionalNoCheck() {
-    this.form
+    this.formGroup
       .get(this.conditionalNoCheck)
       ?.valueChanges.pipe(startWith([this.initialDisabled]))
       .subscribe((value) => {
-        const control = this.form.get(this.controlName);
-        console.debug('value', value);
+        const control = this.formGroup.get(this.controlName);
         if (value) {
           control.setValue(null);
           control.disable();
@@ -67,6 +69,6 @@ export class TextInputComponent implements OnInit {
   }
 
   onValueChange() {
-    this.changed.emit(this.form.get(this.controlName).value);
+    this.changed.emit(this.formGroup.get(this.controlName).value);
   }
 }
