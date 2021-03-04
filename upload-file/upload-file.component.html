@@ -1,0 +1,18 @@
+<form [formGroup]="form" *ngIf="form" id="form-{{INPUT_FILE}}">
+
+    <div class="row m-0">
+        <div class="col-md-12 mt-2">
+            <div class="row">
+                <div class="col" *ngIf="form.get(INPUT_FILE)">
+                    <input [attr.data-cy]="'upload-file-input-'+ INPUT_FILE" id="{{ INPUT_FILE }}" formControlName="INPUT_FILE" type="file" class="form-control" (change)="onFileChange($event)">
+                </div>
+            </div>
+            <div class="row">
+                <div mat-dialog-actions class="justify-content-center col">
+                    <button type="button" class="btn btn-rounded btn-link" [attr.data-cy]="'upload-file-btn-' + INPUT_FILE" id="{{ INPUT_FILE }}-btn-close" (click)="close()">Cancel</button>
+                    <button type="submit" class="btn btn-rounded btn-primary" [attr.data-cy]="'upload-file-btn-' + INPUT_FILE" id="{{ INPUT_FILE }}-btn-save" (click)="onSubmit()" [disabled]="form.invalid">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
